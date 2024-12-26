@@ -17,17 +17,17 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Player()
         {
-            this.TeamComposition = new HashSet<TeamComposition>();
             this.TournamentRegistration = new HashSet<TournamentRegistration>();
         }
     
         public int Id { get; set; }
         public string Nickname { get; set; }
         public string ContactData { get; set; }
+        public Nullable<int> IdTeam { get; set; }
         public string TeamRole { get; set; }
+        public string Password { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamComposition> TeamComposition { get; set; }
+        public virtual Team Team { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TournamentRegistration> TournamentRegistration { get; set; }
     }

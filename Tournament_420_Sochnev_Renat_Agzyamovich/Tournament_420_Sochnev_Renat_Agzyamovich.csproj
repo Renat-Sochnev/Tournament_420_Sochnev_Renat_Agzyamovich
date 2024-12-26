@@ -93,6 +93,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DB\Organizer.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB\Player.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -103,9 +106,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\Team.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\TeamComposition.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\Tournament.cs">
@@ -130,6 +130,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MyPages\PlayerPages\PlayerMainMenuPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MyClasses\MessageClass.cs" />
@@ -141,6 +145,9 @@
     </Compile>
     <Compile Include="MyPages\OrganizerPages\OrganizerTournamentListPage.xaml.cs">
       <DependentUpon>OrganizerTournamentListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyPages\PlayerPages\PlayerMainMenuPage.xaml.cs">
+      <DependentUpon>PlayerMainMenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

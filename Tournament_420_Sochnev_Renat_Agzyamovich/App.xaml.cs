@@ -15,5 +15,7 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich
     public partial class App : Application
     {
         public static TournamentDB_420_Sochnev_Renat_AgzyamovichEntities db = new TournamentDB_420_Sochnev_Renat_AgzyamovichEntities();
+
+        public static Player CurrentPlayer { get; set; }
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tournament_420_Sochnev_Renat_Agzyamovich.MyClasses;
 using Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages;
+using Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.PlayerPages;
 
 namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages
 {
@@ -29,16 +30,20 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
-            //string login = LoginTb.Text.Trim();
-            //string password = PasswordPb.Password.Trim();
-            //if(login == "0000" && password == "0000")
-            //{
-            //    NavigationService.Navigate(new OrganizerTournamentListPage());
-            //    return;
-            //}
-            NavigationService.Navigate(new OrganizerTournamentListPage());
-            
-            //MessageClass.ErrorMessage("Неправильный логин или пароль");
+            string login = LoginTb.Text.Trim();
+            string password = PasswordPb.Password.Trim();
+            if (App.db.Organizer.FirstOrDefault(x => x.Login == login && x.Password == password) != null)
+            {
+                NavigationService.Navigate(new OrganizerTournamentListPage());
+                return;
+            }
+            App.CurrentPlayer = App.db.Player.FirstOrDefault(x => x.Nickname == login && x.Password == password);
+            if (App.CurrentPlayer != null)
+            {
+                NavigationService.Navigate(new PlayerMainMenuPage());
+                return;
+            }
+            MessageClass.ErrorMessage("Неправильный логин или пароль");
         }
     }
 }

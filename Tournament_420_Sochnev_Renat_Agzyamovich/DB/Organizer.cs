@@ -12,13 +12,10 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class TeamComposition
+    public partial class Organizer
     {
         public int Id { get; set; }
-        public Nullable<int> IdTeam { get; set; }
-        public Nullable<int> IdPlayer { get; set; }
-    
-        public virtual Player Player { get; set; }
-        public virtual Team Team { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
     }
 }

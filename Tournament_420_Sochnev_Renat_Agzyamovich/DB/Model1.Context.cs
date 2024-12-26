@@ -27,11 +27,11 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.DB
     
         public virtual DbSet<Format> Format { get; set; }
         public virtual DbSet<Game> Game { get; set; }
+        public virtual DbSet<Organizer> Organizer { get; set; }
         public virtual DbSet<Player> Player { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Team> Team { get; set; }
-        public virtual DbSet<TeamComposition> TeamComposition { get; set; }
         public virtual DbSet<Tournament> Tournament { get; set; }
         public virtual DbSet<TournamentRegistration> TournamentRegistration { get; set; }
     }

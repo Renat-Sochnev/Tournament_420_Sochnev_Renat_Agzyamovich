@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище TournamentDB_420_Sochnev_Renat_AgzyamovichModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище TournamentDB_420_Sochnev_Renat_AgzyamovichModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Format">
           <Key>
             <PropertyRef Name="Id" />
@@ -19,6 +19,14 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Organizer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Player">
           <Key>
             <PropertyRef Name="Id" />
@@ -26,7 +34,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nickname" Type="nvarchar(max)" />
           <Property Name="ContactData" Type="nvarchar(max)" />
+          <Property Name="IdTeam" Type="int" />
           <Property Name="TeamRole" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -53,14 +63,6 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="ContactData" Type="nvarchar(max)" />
         </EntityType>
-        <EntityType Name="TeamComposition">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdTeam" Type="int" />
-          <Property Name="IdPlayer" Type="int" />
-        </EntityType>
         <EntityType Name="Tournament">
           <Key>
             <PropertyRef Name="Id" />
@@ -80,26 +82,14 @@
           <Property Name="IdMember" Type="int" />
           <Property Name="IdStatus" Type="int" />
         </EntityType>
-        <Association Name="FK_TeamComposition_Player">
-          <End Role="Player" Type="Self.Player" Multiplicity="0..1" />
-          <End Role="TeamComposition" Type="Self.TeamComposition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Player">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TeamComposition">
-              <PropertyRef Name="IdPlayer" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TeamComposition_Team">
+        <Association Name="FK_Player_Team">
           <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
-          <End Role="TeamComposition" Type="Self.TeamComposition" Multiplicity="*" />
+          <End Role="Player" Type="Self.Player" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TeamComposition">
+            <Dependent Role="Player">
               <PropertyRef Name="IdTeam" />
             </Dependent>
           </ReferentialConstraint>
@@ -179,20 +169,16 @@
         <EntityContainer Name="Хранилище TournamentDB_420_Sochnev_Renat_AgzyamovichModelContainer">
           <EntitySet Name="Format" EntityType="Self.Format" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organizer" EntityType="Self.Organizer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Player" EntityType="Self.Player" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TeamComposition" EntityType="Self.TeamComposition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tournament" EntityType="Self.Tournament" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TournamentRegistration" EntityType="Self.TournamentRegistration" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_TeamComposition_Player" Association="Self.FK_TeamComposition_Player">
-            <End Role="Player" EntitySet="Player" />
-            <End Role="TeamComposition" EntitySet="TeamComposition" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeamComposition_Team" Association="Self.FK_TeamComposition_Team">
+          <AssociationSet Name="FK_Player_Team" Association="Self.FK_Player_Team">
             <End Role="Team" EntitySet="Team" />
-            <End Role="TeamComposition" EntitySet="TeamComposition" />
+            <End Role="Player" EntitySet="Player" />
           </AssociationSet>
           <AssociationSet Name="FK_Tournament_Format" Association="Self.FK_Tournament_Format">
             <End Role="Format" EntitySet="Format" />
@@ -219,18 +205,56 @@
             <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TournamentDB_420_Sochnev_Renat_AgzyamovichModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TournamentDB_420_Sochnev_Renat_AgzyamovichEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Format" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Format" />
+          <EntitySet Name="Game" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Game" />
+          <EntitySet Name="Organizer" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Organizer" />
+          <EntitySet Name="Player" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Player" />
+          <EntitySet Name="Status" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Status" />
+          <EntitySet Name="sysdiagrams" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.sysdiagrams" />
+          <EntitySet Name="Team" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Team" />
+          <EntitySet Name="Tournament" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Tournament" />
+          <EntitySet Name="TournamentRegistration" EntityType="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.TournamentRegistration" />
+          <AssociationSet Name="FK_Tournament_Format" Association="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Tournament_Format">
+            <End Role="Format" EntitySet="Format" />
+            <End Role="Tournament" EntitySet="Tournament" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tournament_Game" Association="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Tournament_Game">
+            <End Role="Game" EntitySet="Game" />
+            <End Role="Tournament" EntitySet="Tournament" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Player_Team" Association="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Player_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="Player" EntitySet="Player" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TournamentRegistration_Player" Association="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Player">
+            <End Role="Player" EntitySet="Player" />
+            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TournamentRegistration_Status" Association="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TournamentRegistration_Team" Association="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Team">
+            <End Role="Team" EntitySet="Team" />
+            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TournamentRegistration_Tournament" Association="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Tournament">
+            <End Role="Tournament" EntitySet="Tournament" />
+            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Format">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Tournament" Relationship="Self.FK_Tournament_Format" FromRole="Format" ToRole="Tournament" />
+          <NavigationProperty Name="Tournament" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Tournament_Format" FromRole="Format" ToRole="Tournament" />
         </EntityType>
         <EntityType Name="Game">
           <Key>
@@ -238,7 +262,15 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Tournament" Relationship="Self.FK_Tournament_Game" FromRole="Game" ToRole="Tournament" />
+          <NavigationProperty Name="Tournament" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Tournament_Game" FromRole="Game" ToRole="Tournament" />
+        </EntityType>
+        <EntityType Name="Organizer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -247,9 +279,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nickname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ContactData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdTeam" Type="Int32" />
           <Property Name="TeamRole" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TeamComposition" Relationship="Self.FK_TeamComposition_Player" FromRole="Player" ToRole="TeamComposition" />
-          <NavigationProperty Name="TournamentRegistration" Relationship="Self.FK_TournamentRegistration_Player" FromRole="Player" ToRole="TournamentRegistration" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Team" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Player_Team" FromRole="Player" ToRole="Team" />
+          <NavigationProperty Name="TournamentRegistration" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Player" FromRole="Player" ToRole="TournamentRegistration" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -257,13 +291,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TournamentRegistration" Relationship="Self.FK_TournamentRegistration_Status" FromRole="Status" ToRole="TournamentRegistration" />
+          <NavigationProperty Name="TournamentRegistration" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Status" FromRole="Status" ToRole="TournamentRegistration" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -276,18 +310,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ContactData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TeamComposition" Relationship="Self.FK_TeamComposition_Team" FromRole="Team" ToRole="TeamComposition" />
-          <NavigationProperty Name="TournamentRegistration" Relationship="Self.FK_TournamentRegistration_Team" FromRole="Team" ToRole="TournamentRegistration" />
-        </EntityType>
-        <EntityType Name="TeamComposition">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdTeam" Type="Int32" />
-          <Property Name="IdPlayer" Type="Int32" />
-          <NavigationProperty Name="Player" Relationship="Self.FK_TeamComposition_Player" FromRole="TeamComposition" ToRole="Player" />
-          <NavigationProperty Name="Team" Relationship="Self.FK_TeamComposition_Team" FromRole="TeamComposition" ToRole="Team" />
+          <NavigationProperty Name="Player" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Player_Team" FromRole="Team" ToRole="Player" />
+          <NavigationProperty Name="TournamentRegistration" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Team" FromRole="Team" ToRole="TournamentRegistration" />
         </EntityType>
         <EntityType Name="Tournament">
           <Key>
@@ -298,9 +322,9 @@
           <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="IdGame" Type="Int32" />
           <Property Name="IdFormat" Type="Int32" />
-          <NavigationProperty Name="Format" Relationship="Self.FK_Tournament_Format" FromRole="Tournament" ToRole="Format" />
-          <NavigationProperty Name="Game" Relationship="Self.FK_Tournament_Game" FromRole="Tournament" ToRole="Game" />
-          <NavigationProperty Name="TournamentRegistration" Relationship="Self.FK_TournamentRegistration_Tournament" FromRole="Tournament" ToRole="TournamentRegistration" />
+          <NavigationProperty Name="Format" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Tournament_Format" FromRole="Tournament" ToRole="Format" />
+          <NavigationProperty Name="Game" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_Tournament_Game" FromRole="Tournament" ToRole="Game" />
+          <NavigationProperty Name="TournamentRegistration" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Tournament" FromRole="Tournament" ToRole="TournamentRegistration" />
         </EntityType>
         <EntityType Name="TournamentRegistration">
           <Key>
@@ -310,14 +334,14 @@
           <Property Name="IdTournament" Type="Int32" />
           <Property Name="IdMember" Type="Int32" />
           <Property Name="IdStatus" Type="Int32" />
-          <NavigationProperty Name="Player" Relationship="Self.FK_TournamentRegistration_Player" FromRole="TournamentRegistration" ToRole="Player" />
-          <NavigationProperty Name="Status" Relationship="Self.FK_TournamentRegistration_Status" FromRole="TournamentRegistration" ToRole="Status" />
-          <NavigationProperty Name="Team" Relationship="Self.FK_TournamentRegistration_Team" FromRole="TournamentRegistration" ToRole="Team" />
-          <NavigationProperty Name="Tournament" Relationship="Self.FK_TournamentRegistration_Tournament" FromRole="TournamentRegistration" ToRole="Tournament" />
+          <NavigationProperty Name="Player" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Player" FromRole="TournamentRegistration" ToRole="Player" />
+          <NavigationProperty Name="Status" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Status" FromRole="TournamentRegistration" ToRole="Status" />
+          <NavigationProperty Name="Team" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Team" FromRole="TournamentRegistration" ToRole="Team" />
+          <NavigationProperty Name="Tournament" Relationship="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.FK_TournamentRegistration_Tournament" FromRole="TournamentRegistration" ToRole="Tournament" />
         </EntityType>
         <Association Name="FK_Tournament_Format">
-          <End Role="Format" Type="Self.Format" Multiplicity="0..1" />
-          <End Role="Tournament" Type="Self.Tournament" Multiplicity="*" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Format" Role="Format" Multiplicity="0..1" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Tournament" Role="Tournament" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Format">
               <PropertyRef Name="Id" />
@@ -328,8 +352,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tournament_Game">
-          <End Role="Game" Type="Self.Game" Multiplicity="0..1" />
-          <End Role="Tournament" Type="Self.Tournament" Multiplicity="*" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Game" Role="Game" Multiplicity="0..1" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Tournament" Role="Tournament" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Game">
               <PropertyRef Name="Id" />
@@ -339,21 +363,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TeamComposition_Player">
-          <End Role="Player" Type="Self.Player" Multiplicity="0..1" />
-          <End Role="TeamComposition" Type="Self.TeamComposition" Multiplicity="*" />
+        <Association Name="FK_Player_Team">
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Player" Role="Player" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Player">
+            <Principal Role="Team">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="TeamComposition">
-              <PropertyRef Name="IdPlayer" />
+            <Dependent Role="Player">
+              <PropertyRef Name="IdTeam" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TournamentRegistration_Player">
-          <End Role="Player" Type="Self.Player" Multiplicity="0..1" />
-          <End Role="TournamentRegistration" Type="Self.TournamentRegistration" Multiplicity="*" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Player" Role="Player" Multiplicity="0..1" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.TournamentRegistration" Role="TournamentRegistration" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Player">
               <PropertyRef Name="Id" />
@@ -364,8 +388,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TournamentRegistration_Status">
-          <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
-          <End Role="TournamentRegistration" Type="Self.TournamentRegistration" Multiplicity="*" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Status" Role="Status" Multiplicity="0..1" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.TournamentRegistration" Role="TournamentRegistration" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Status">
               <PropertyRef Name="Id" />
@@ -375,21 +399,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TeamComposition_Team">
-          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
-          <End Role="TeamComposition" Type="Self.TeamComposition" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Team">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TeamComposition">
-              <PropertyRef Name="IdTeam" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TournamentRegistration_Team">
-          <End Role="Team" Type="Self.Team" Multiplicity="0..1" />
-          <End Role="TournamentRegistration" Type="Self.TournamentRegistration" Multiplicity="*" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Team" Role="Team" Multiplicity="0..1" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.TournamentRegistration" Role="TournamentRegistration" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Team">
               <PropertyRef Name="Id" />
@@ -400,8 +412,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_TournamentRegistration_Tournament">
-          <End Role="Tournament" Type="Self.Tournament" Multiplicity="0..1" />
-          <End Role="TournamentRegistration" Type="Self.TournamentRegistration" Multiplicity="*" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Tournament" Role="Tournament" Multiplicity="0..1" />
+          <End Type="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.TournamentRegistration" Role="TournamentRegistration" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tournament">
               <PropertyRef Name="Id" />
@@ -411,49 +423,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="TournamentDB_420_Sochnev_Renat_AgzyamovichEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Format" EntityType="Self.Format" />
-          <EntitySet Name="Game" EntityType="Self.Game" />
-          <EntitySet Name="Player" EntityType="Self.Player" />
-          <EntitySet Name="Status" EntityType="Self.Status" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="Team" EntityType="Self.Team" />
-          <EntitySet Name="TeamComposition" EntityType="Self.TeamComposition" />
-          <EntitySet Name="Tournament" EntityType="Self.Tournament" />
-          <EntitySet Name="TournamentRegistration" EntityType="Self.TournamentRegistration" />
-          <AssociationSet Name="FK_Tournament_Format" Association="Self.FK_Tournament_Format">
-            <End Role="Format" EntitySet="Format" />
-            <End Role="Tournament" EntitySet="Tournament" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tournament_Game" Association="Self.FK_Tournament_Game">
-            <End Role="Game" EntitySet="Game" />
-            <End Role="Tournament" EntitySet="Tournament" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeamComposition_Player" Association="Self.FK_TeamComposition_Player">
-            <End Role="Player" EntitySet="Player" />
-            <End Role="TeamComposition" EntitySet="TeamComposition" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TournamentRegistration_Player" Association="Self.FK_TournamentRegistration_Player">
-            <End Role="Player" EntitySet="Player" />
-            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TournamentRegistration_Status" Association="Self.FK_TournamentRegistration_Status">
-            <End Role="Status" EntitySet="Status" />
-            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TeamComposition_Team" Association="Self.FK_TeamComposition_Team">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="TeamComposition" EntitySet="TeamComposition" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TournamentRegistration_Team" Association="Self.FK_TournamentRegistration_Team">
-            <End Role="Team" EntitySet="Team" />
-            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TournamentRegistration_Tournament" Association="Self.FK_TournamentRegistration_Tournament">
-            <End Role="Tournament" EntitySet="Tournament" />
-            <End Role="TournamentRegistration" EntitySet="TournamentRegistration" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -463,84 +432,86 @@
           <EntitySetMapping Name="Format">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Format">
               <MappingFragment StoreEntitySet="Format">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Game">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Game">
               <MappingFragment StoreEntitySet="Game">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizer">
+            <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Organizer">
+              <MappingFragment StoreEntitySet="Organizer">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Player">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Player">
               <MappingFragment StoreEntitySet="Player">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
-                <ScalarProperty Name="ContactData" ColumnName="ContactData" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="TeamRole" ColumnName="TeamRole" />
+                <ScalarProperty Name="IdTeam" ColumnName="IdTeam" />
+                <ScalarProperty Name="ContactData" ColumnName="ContactData" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Status">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Status">
               <MappingFragment StoreEntitySet="Status">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Team">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Team">
               <MappingFragment StoreEntitySet="Team">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ContactData" ColumnName="ContactData" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TeamComposition">
-            <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.TeamComposition">
-              <MappingFragment StoreEntitySet="TeamComposition">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdTeam" ColumnName="IdTeam" />
-                <ScalarProperty Name="IdPlayer" ColumnName="IdPlayer" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tournament">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.Tournament">
               <MappingFragment StoreEntitySet="Tournament">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="IdGame" ColumnName="IdGame" />
                 <ScalarProperty Name="IdFormat" ColumnName="IdFormat" />
+                <ScalarProperty Name="IdGame" ColumnName="IdGame" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TournamentRegistration">
             <EntityTypeMapping TypeName="TournamentDB_420_Sochnev_Renat_AgzyamovichModel.TournamentRegistration">
               <MappingFragment StoreEntitySet="TournamentRegistration">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdTournament" ColumnName="IdTournament" />
-                <ScalarProperty Name="IdMember" ColumnName="IdMember" />
                 <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
+                <ScalarProperty Name="IdMember" ColumnName="IdMember" />
+                <ScalarProperty Name="IdTournament" ColumnName="IdTournament" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

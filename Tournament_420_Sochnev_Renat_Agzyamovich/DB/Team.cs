@@ -17,7 +17,7 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Team()
         {
-            this.TeamComposition = new HashSet<TeamComposition>();
+            this.Player = new HashSet<Player>();
             this.TournamentRegistration = new HashSet<TournamentRegistration>();
         }
     
@@ -26,7 +26,7 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.DB
         public string ContactData { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TeamComposition> TeamComposition { get; set; }
+        public virtual ICollection<Player> Player { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TournamentRegistration> TournamentRegistration { get; set; }
     }
