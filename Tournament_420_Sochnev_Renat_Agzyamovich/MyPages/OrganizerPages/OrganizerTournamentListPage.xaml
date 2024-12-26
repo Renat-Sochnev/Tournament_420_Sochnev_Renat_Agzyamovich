@@ -24,19 +24,36 @@
             <ListView Name="TournamentLv"
                       HorizontalAlignment="Center"
                       HorizontalContentAlignment="Stretch"
-                      Height="600"
+                      Height="550"
                       d:ItemsSource="{d:SampleData ItemCount=5}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBlock Text="{Binding Name}"/>
-                            <TextBlock Text="{Binding Date}"/>
-                            <TextBlock Text="{Binding Game.Name}"/>
-                            <TextBlock />
+                            <TextBlock>
+                                <Run Text="Название:"/>
+                                <Run Text="{Binding Name}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="Дата:"/>
+                                <Run Text="{Binding Date}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="Игра:"/>
+                                <Run Text="{Binding Game.Name}"/>
+                            </TextBlock>
+                            <TextBlock>
+                                <Run Text="Формат:"/>
+                                <Run Text="{Binding Format.Name}"/>
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <StackPanel Height="20"/>
+            <Button Content="Добавить"
+                    Width="150"
+                    Name="AddBtn"
+                    Click="AddBtn_Click"/>
         </StackPanel>
     </Grid>
 </Page>

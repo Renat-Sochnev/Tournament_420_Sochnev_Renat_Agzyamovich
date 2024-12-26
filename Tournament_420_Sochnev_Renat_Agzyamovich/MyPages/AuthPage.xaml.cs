@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tournament_420_Sochnev_Renat_Agzyamovich.MyClasses;
 using Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages;
 
 namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages
@@ -35,7 +36,7 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages
                 NavigationService.Navigate(new OrganizerTournamentListPage());
                 return;
             }
-            MessageBox.Show();
+            MessageClass.ErrorMessage("Неправильный логин или пароль");
         }
     }
 }

@@ -29,5 +29,10 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages
         {
             NavigationService.Navigate(new AuthPage());
         }
+
+        private void AddBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
