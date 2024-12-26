@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tournament_420_Sochnev_Renat_Agzyamovich.DB;
 
-namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages
+namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.PlayerPages
 {
     /// <summary>
-    /// Логика взаимодействия для OrganizerTournamentListPage.xaml
+    /// Логика взаимодействия для PlayerTournamentListPage.xaml
     /// </summary>
-    public partial class OrganizerTournamentListPage : Page
+    public partial class PlayerTournamentListPage : Page
     {
-        public OrganizerTournamentListPage()
+        public PlayerTournamentListPage()
         {
             InitializeComponent();
             TournamentLv.ItemsSource = App.db.Tournament.Where(x => x.Date >= DateTime.Today).OrderBy(x => x.Date).ToList();
@@ -31,14 +32,10 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages
             NavigationService.Navigate(new AuthPage());
         }
 
-        private void AddBtn_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new AddTournamentPage());
-        }
-
         private void GoToTournamentBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Tournament tournament = (sender as Button).DataContext as Tournament;
+            NavigationService.Navigate(new PlayerTournamentInfoPage(tournament));
         }
     }
 }

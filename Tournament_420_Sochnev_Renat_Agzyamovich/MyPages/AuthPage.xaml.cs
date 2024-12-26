@@ -40,7 +40,7 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages
             App.CurrentPlayer = App.db.Player.FirstOrDefault(x => x.Nickname == login && x.Password == password);
             if (App.CurrentPlayer != null)
             {
-                NavigationService.Navigate(new PlayerMainMenuPage());
+                NavigationService.Navigate(new PlayerTournamentListPage());
                 return;
             }
             MessageClass.ErrorMessage("Неправильный логин или пароль");

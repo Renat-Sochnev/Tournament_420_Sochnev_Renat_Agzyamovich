@@ -1,0 +1,57 @@
+﻿<Page x:Class="Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.PlayerPages.PlayerTournamentListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.PlayerPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" d:DesignWidth="1366"
+      Title="PlayerTournamentListPage">
+
+    <Grid>
+        <Button Name="BackBtn"
+        Click="BackBtn_Click"
+        Content="Назад"
+        Width="120"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left"
+        Margin="30 20 0 0"/>
+        <StackPanel HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <TextBlock Text="Список турниров"
+               TextAlignment="Center"/>
+            <StackPanel Height="20"/>
+            <ListView Name="TournamentLv"
+              HorizontalAlignment="Center"
+              HorizontalContentAlignment="Stretch"
+              Height="550"
+              d:ItemsSource="{d:SampleData ItemCount=5}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock>
+                        <Run Text="Название:"/>
+                        <Run Text="{Binding Name}"/>
+                            </TextBlock>
+                            <TextBlock>
+                        <Run Text="Дата:"/>
+                        <Run Text="{Binding Date, StringFormat=dd.MM.yyyy}"/>
+                            </TextBlock>
+                            <TextBlock>
+                        <Run Text="Игра:"/>
+                        <Run Text="{Binding Game.Name}"/>
+                            </TextBlock>
+                            <TextBlock>
+                        <Run Text="Формат:"/>
+                        <Run Text="{Binding Format.Name}"/>
+                            </TextBlock>
+                            <Button Content="Перейти"
+                            Name="GoToTournamentBtn"
+                            Click="GoToTournamentBtn_Click"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Page>
