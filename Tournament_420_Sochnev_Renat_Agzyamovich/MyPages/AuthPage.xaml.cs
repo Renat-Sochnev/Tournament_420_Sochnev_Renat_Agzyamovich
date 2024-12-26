@@ -29,14 +29,16 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
-            string login = LoginTb.Text.Trim();
-            string password = PasswordPb.Password.Trim();
-            if(login == "0000" && password == "0000")
-            {
-                NavigationService.Navigate(new OrganizerTournamentListPage());
-                return;
-            }
-            MessageClass.ErrorMessage("Неправильный логин или пароль");
+            //string login = LoginTb.Text.Trim();
+            //string password = PasswordPb.Password.Trim();
+            //if(login == "0000" && password == "0000")
+            //{
+            //    NavigationService.Navigate(new OrganizerTournamentListPage());
+            //    return;
+            //}
+            NavigationService.Navigate(new OrganizerTournamentListPage());
+            
+            //MessageClass.ErrorMessage("Неправильный логин или пароль");
         }
     }
 }

@@ -35,7 +35,7 @@
                             </TextBlock>
                             <TextBlock>
                                 <Run Text="Дата:"/>
-                                <Run Text="{Binding Date}"/>
+                                <Run Text="{Binding Date, StringFormat=dd.MM.yyyy}"/>
                             </TextBlock>
                             <TextBlock>
                                 <Run Text="Игра:"/>
@@ -45,6 +45,9 @@
                                 <Run Text="Формат:"/>
                                 <Run Text="{Binding Format.Name}"/>
                             </TextBlock>
+                            <Button Content="Перейти"
+                                    Name="GoToTournamentBtn"
+                                    Click="GoToTournamentBtn_Click"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

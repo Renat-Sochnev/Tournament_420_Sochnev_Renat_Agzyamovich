@@ -23,6 +23,7 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages
         public OrganizerTournamentListPage()
         {
             InitializeComponent();
+            TournamentLv.ItemsSource = App.db.Tournament.ToList();
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
@@ -31,6 +32,11 @@ namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages
         }
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AddTournamentPage());
+        }
+
+        private void GoToTournamentBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }

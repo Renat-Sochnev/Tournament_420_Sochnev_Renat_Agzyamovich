@@ -122,6 +122,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MyPages\OrganizerPages\AddTournamentPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MyPages\OrganizerPages\OrganizerTournamentListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,6 +135,9 @@
     <Compile Include="MyClasses\MessageClass.cs" />
     <Compile Include="MyPages\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MyPages\OrganizerPages\AddTournamentPage.xaml.cs">
+      <DependentUpon>AddTournamentPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MyPages\OrganizerPages\OrganizerTournamentListPage.xaml.cs">
       <DependentUpon>OrganizerTournamentListPage.xaml</DependentUpon>
