@@ -1,0 +1,9 @@
+﻿<Application x:Class="Tournament_420_Sochnev_Renat_Agzyamovich.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Tournament_420_Sochnev_Renat_Agzyamovich"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
