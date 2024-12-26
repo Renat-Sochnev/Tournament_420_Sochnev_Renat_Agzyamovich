@@ -12,19 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Tournament_420_Sochnev_Renat_Agzyamovich.MyPages;
 
-namespace Tournament_420_Sochnev_Renat_Agzyamovich
+namespace Tournament_420_Sochnev_Renat_Agzyamovich.MyPages.OrganizerPages
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для OrganizerTournamentListPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class OrganizerTournamentListPage : Page
     {
-        public MainWindow()
+        public OrganizerTournamentListPage()
         {
             InitializeComponent();
-            NavFrame.Navigate(new AuthPage());
+        }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new AuthPage());
         }
     }
 }
